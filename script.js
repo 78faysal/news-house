@@ -4,24 +4,33 @@ fetch('https://openapi.programming-hero.com/api/news/categories')
     .catch(err => console.error(err));
 
 
-const handleCategory = (categorys) => {
-    const totalCategorys = Object.values(categorys.news_category);
-    console.log(totalCategorys.length);
-    // for (let i = 0; i < totalCategorys.length; i++) {
-        // console.log(i)
-        totalCategorys.forEach(category => {
-            // for (let i = 0; i < totalCategorys.length; i++) {
-            console.log(category.category_name)
-            const categoryName = category.category_name;
-            // console.log(categoryName);
-            const categoryItem = document.getElementById('categoryItem');
-            categoryItem.innerHTML = `
-                <li class="nav-item">
-                <a class="nav-link text-secondary" href="#">${categoryName}</a>
-                </li>
-            `
-            // }
-        });
-    // }
+const handleCategory = (categories) => {
+    const categoryItems = categories.news_category.map(category => {
+        const categoryId = category.category_id;
+        const categoryName = category.category_name;
+        return `
+            <li class="nav-item">
+            <a class="nav-link text-secondary" href="#${categoryName.toLowerCase()}" data-category-id="${categoryId}">${categoryName}</a>
+            </li>
+          `;
+    }).join('');
+    const categoryItem = document.getElementById("categoryItem");
+    categoryItem.innerHTML = categoryItems;
 
-}
+
+    // Add event listener to links in the navbar
+    const navbarLinks = document.querySelectorAll('.nav-link');
+    navbarLinks.forEach(link => {
+        link.addEventListener('click', event => {
+            event.preventDefault();
+            const categoryId = event.target.getAttribute('data-category-id');
+            console.log(categoryId)
+            fetch(`https://openapi.programming-hero.com/api/news/category/${categoryId}`)
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(err => console.error(err));
+        });
+    });
+};
+
+
