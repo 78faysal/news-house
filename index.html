@@ -23,21 +23,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item dropdown">
-              <a class="nav-link text-primary-emphasis dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Cetegory
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">All News</a></li>
-                <li><a class="dropdown-item" href="#">Breaking News</a></li>
-                <li><a class="dropdown-item" href="#">Regular News</a></li>
-                <li><a class="dropdown-item" href="#">International News</a></li>
-                <li><a class="dropdown-item" href="#">Sports</a></li>
-                <li><a class="dropdown-item" href="#">Entertainment</a></li>
-                <li><a class="dropdown-item" href="#">Culture</a></li>
-                <li><a class="dropdown-item" href="#">Arts</a></li>
-              </ul>
-            </li>
             <li class="nav-item">
               <a class="nav-link text-primary-emphasis" href="#">News</a>
             </li>
@@ -67,8 +52,13 @@
 
 
   <section class="container">
-    <div id="newsItem">
+    <div id="errorMessage" class="error-show bg-body-secondary rounded p-3 m-2">
       
+    </div>
+    <div id="newsItem">
+      <div id="spinner" class="spinner-border text-primary" role="status" style="display: none;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
   </section>
 
