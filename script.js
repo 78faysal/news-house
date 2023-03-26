@@ -21,6 +21,7 @@ const handleCategory = (categories) => {
     // Add event listener to links in the navbar
     const navbarLinks = document.querySelectorAll('.nav-link');
     const spinner = document.getElementById('spinner');
+    errorMessage.innerHTML  = "<p class='mb-0'>Please select category to load data</p>";
     navbarLinks.forEach(link => {
         link.addEventListener('click', event => {
             spinner.style.display = 'block';
@@ -40,6 +41,8 @@ const handleCategory = (categories) => {
     const handleNewses = (newses) => {
 
         const newsItems = newses.map(news => {
+            console.log(news);
+            const idNum = news.category_id;
             const thumbnail = news.thumbnail_url;
             const title = news.title;
             const details = news.details;
@@ -47,7 +50,6 @@ const handleCategory = (categories) => {
             const name = news.author.name;
             const date = news.author.published_date;
             const views = news.total_view;
-            console.log(news.total_view)
             return `
                 <div class="card mb-3" style="max-width: auto;">
                     <div class="row g-0">
@@ -70,39 +72,90 @@ const handleCategory = (categories) => {
                                     <div>
                                         <p class="mb-0">Views: ${views}</p>
                                     </div>
-                                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">-></button>
+                                    <button id="news-btn" data-category-id="${idNum}" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal${idNum}">-></button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Modal -->
+                    <div class="modal fade" id="exampleModal${idNum}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <img src="${thumbnail}" class="" alt="...">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">${title}</h1>
+                                    <p>${details}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-
-                
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-      <img src="${thumbnail}" class="" alt="...">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <h1 class="modal-title fs-5" id="exampleModalLabel">${title}</h1>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
             
             `
         }).join('');
         const newsItem = document.getElementById("newsItem");
         newsItem.innerHTML = newsItems;
+
+        // details show with modal 
+        // const newsBtns = document.querySelectorAll("#news-btn");
+        // newsBtns.forEach(newsBtn => {
+        //     newsBtn.addEventListener("click", event => {
+        //         const btnCardId = event.target.getAttribute("data-category-id");
+        //         fetch(`https://openapi.programming-hero.com/api/news/category/${btnCardId}`)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 handleDetails(data.data)
+        //             })
+        //             .catch(err => console.error(err));
+        //     })
+        // });
+
+        // const handleDetails = (data) => {
+        //     const detailses = data.map(details => {
+        //         const idNum = details.category_id;
+        //         const cardThumbnail = details.thumbnail_url;
+        //         const cardTitle = details.title;
+        //         const cardDetails = details.details;
+        //         const cardImg = details.author.img;
+        //         const name = details.author.name;
+        //         const date = details.author.published_date;
+        //         const views = details.total_view;
+        
+        //         return `            
+        //             <!-- Modal -->
+        //             <div class="modal fade" id="exampleModal${idNum}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        //                 <div class="modal-dialog">
+        //                     <div class="modal-content">
+        //                         <div class="modal-header">
+        //                             <img src="${cardThumbnail}" class="" alt="...">
+        //                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        //                         </div>
+        //                         <div class="modal-body">
+        //                             <h1 class="modal-title fs-5" id="exampleModalLabel">${cardTitle}</h1>
+        //                             <p>${cardDetails}</p>
+        //                         </div>
+        //                         <div class="modal-footer">
+        //                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        //                             <button type="button" class="btn btn-primary">Save changes</button>
+        //                         </div>
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //         `
+        //     }).join('');
+        //     const newsItem = document.getElementById("newsItem");
+        //     newsItem.innerHTML = detailses;
+        // };
+        
 
         const errorMessage = document.getElementById("errorMessage");
         if (newses.length === 0) {
@@ -116,6 +169,9 @@ const handleCategory = (categories) => {
         setTimeout(function () {
             document.getElementById("spinner").style.display = "none";
         }, 3000);
+
+
+
     };
 };
 
