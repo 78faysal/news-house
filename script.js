@@ -51,7 +51,6 @@ const handleCategory = (categories) => {
     const handleNewses = (newses) => {
 
         const newsItems = newses.map(news => {
-            console.log(news);
             const idNum = news._id;
             const thumbnail = news.thumbnail_url;
             const title = news.title;
