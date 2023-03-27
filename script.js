@@ -5,7 +5,14 @@ fetch('https://openapi.programming-hero.com/api/news/categories')
 
 
 
-
+// function handleBtn(event) {
+//     fetch(`https://openapi.programming-hero.com/api/news/${event}`)
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log(data)
+//         })
+//         .catch(err => console.error(err));
+// };
 
 const handleCategory = (categories) => {
     const categoryItems = categories.news_category.map(category => {
@@ -62,21 +69,22 @@ const handleCategory = (categories) => {
                         <div class="col-md-8 my-auto">
                             <div class="card-body">
                                 
-                                <h5 class="card-title">${title}</h5>
-                                <p class="card-text">${details.slice(0, 400)}...</p>
+                            ${title ? '<h5 class="card-title">' + title + '</h5>' : '<p class="card-text">Data not found</p>'}
+                             ${details ? '<p class="card-text">' + details.slice(0, 400) + '...</p>' : '<p class="card-text">Data not found</p>'}
                                 
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="d-flex align-items-center">
                                         <img style=" max-height: 40px" class="rounded-circle img-fluid" src="${img}" alt="">
                                         <div>
-                                            <p class="mb-0">${name}</p>
-                                            <p class="mb-0">${date}</p>
+                                        ${name ? '<p class="mb-0">' + name + '</p>' : '<p class="card-text">Data not found</p>'}
+                                        ${date ? '<p class="mb-0">' + date + '</p>' : '<p class="card-text">Data not found</p>'}
+                                            
                                         </div>
                                     </div>
                                     <div>
-                                        <p class="mb-0">Views: ${views}</p>
+                                        <p class="mb-0">Views: ${views || 'Not Found'}</p>
                                     </div>
-                                    <button id="news-btn" data-category-id="${idNum}" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal${idNum}" onclick="handleBtn(${idNum})">-></button>
+                                    <button id="news-btn" data-category-id="${idNum || 'Not Found'}" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal${idNum || 'Not Found'}" >-></button>
                                 </div>
                             </div>
                         </div>
